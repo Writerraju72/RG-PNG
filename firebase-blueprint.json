@@ -1,0 +1,227 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Public creator profile for a signed-in RG PNG user (no PII stored).",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Firebase Auth UID of the profile owner.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Public creator display name.",
+          "minLength": 1,
+          "maxLength": 60
+        },
+        "handle": {
+          "type": "string",
+          "description": "Public creator handle without @.",
+          "minLength": 2,
+          "maxLength": 40,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "bio": {
+          "type": "string",
+          "description": "Short creator bio.",
+          "minLength": 0,
+          "maxLength": 200
+        },
+        "photoURL": {
+          "type": "string",
+          "description": "Optional avatar URL.",
+          "minLength": 0,
+          "maxLength": 500
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the profile was created."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the profile was last updated."
+        }
+      },
+      "required": ["uid", "displayName", "handle", "bio", "photoURL", "createdAt", "updatedAt"]
+    },
+    "CommunityUpload": {
+      "title": "CommunityUpload",
+      "description": "A user-uploaded PNG or JPG image shared in the RG PNG app.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique document ID of the upload.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "authorId": {
+          "type": "string",
+          "description": "Firebase Auth UID of the uploader.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "authorName": {
+          "type": "string",
+          "description": "Display name of the uploader.",
+          "minLength": 1,
+          "maxLength": 60
+        },
+        "name": {
+          "type": "string",
+          "description": "Searchable title of the uploaded PNG or JPG image.",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "format": {
+          "type": "string",
+          "description": "Image format uploaded by the user.",
+          "enum": ["PNG", "JPG"]
+        },
+        "dataUrl": {
+          "type": "string",
+          "description": "Compressed base64 data URL of the PNG or JPG image.",
+          "minLength": 20,
+          "maxLength": 650000
+        },
+        "width": {
+          "type": "number",
+          "description": "Image width in pixels."
+        },
+        "height": {
+          "type": "number",
+          "description": "Image height in pixels."
+        },
+        "tags": {
+          "type": "array",
+          "description": "Bounded search tags (up to 10 tags)."
+        },
+        "likesCount": {
+          "type": "number",
+          "description": "Total number of likes on this upload."
+        },
+        "sharesCount": {
+          "type": "number",
+          "description": "Total number of shares on this upload."
+        },
+        "visibility": {
+          "type": "string",
+          "description": "Visibility state enforced by list queries.",
+          "enum": ["public"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the upload was created."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the upload was last updated."
+        }
+      },
+      "required": [
+        "id",
+        "authorId",
+        "authorName",
+        "name",
+        "format",
+        "dataUrl",
+        "width",
+        "height",
+        "tags",
+        "likesCount",
+        "sharesCount",
+        "visibility",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "AssetStat": {
+      "title": "AssetStat",
+      "description": "Aggregated like and share counters for built-in or uploaded assets.",
+      "type": "object",
+      "properties": {
+        "assetId": {
+          "type": "string",
+          "description": "Target asset ID.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "likesCount": {
+          "type": "number",
+          "description": "Total number of likes."
+        },
+        "sharesCount": {
+          "type": "number",
+          "description": "Total number of shares."
+        },
+        "visibility": {
+          "type": "string",
+          "description": "Public visibility flag for list query enforcement.",
+          "enum": ["public"]
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of the latest counter update."
+        }
+      },
+      "required": ["assetId", "likesCount", "sharesCount", "visibility", "updatedAt"]
+    },
+    "AssetLike": {
+      "title": "AssetLike",
+      "description": "Individual user like record under an asset stat document.",
+      "type": "object",
+      "properties": {
+        "assetId": {
+          "type": "string",
+          "description": "Target asset ID.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Firebase Auth UID of the user who liked the asset.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the like was created."
+        }
+      },
+      "required": ["assetId", "userId", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Public creator profiles indexed by Firebase Auth UID."
+    },
+    "/uploads/{uploadId}": {
+      "schema": { "$ref": "#/entities/CommunityUpload" },
+      "description": "User-uploaded PNG and JPG images."
+    },
+    "/assetStats/{assetId}": {
+      "schema": { "$ref": "#/entities/AssetStat" },
+      "description": "Public like and share counters per asset ID."
+    },
+    "/assetStats/{assetId}/likes/{userId}": {
+      "schema": { "$ref": "#/entities/AssetLike" },
+      "description": "Per-user like receipts under an assetStat document."
+    }
+  }
+}

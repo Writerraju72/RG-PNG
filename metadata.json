@@ -1,0 +1,6 @@
+{
+  "name": "RG PNG",
+  "description": "A searchable Liquid Glass library of 122 ready-to-use transparent PNG icons, 3D app icons, and design elements across 5 curated packs.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
